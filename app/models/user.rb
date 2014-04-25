@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
 
   def initialize(token, secret)
     @twitter_client = self.make_twitter_client(token, secret)
-    @tweets = []
   end 
 
   def make_twitter_client(token, secret)
@@ -21,19 +20,24 @@ class User < ActiveRecord::Base
   def get_tweets_from(screen_name)
     timeline = []
 
-    timeline = @twitter_client.user_timeline(:screen_name => screen_name, :count => 199)
-    last_id = timeline.last.id - 1 
+    timeline = @twitter_client.user_timeline(:screen_name => screen_name, :count => 179)
+    
+    # last_id = timeline.last.id - 1 
+    # 4.times do 
+    #   sleep(1)
+    #   timeline = timeline + @twitter_client.user_timeline(:screen_name => screen_name, :count => 179, :max_id => last_id)
+    #   last_id = timeline.last.id - 1
+    # end 
 
-    4.times do 
-      sleep(1)
-      timeline = timeline + @twitter_client.user_timeline(:screen_name => screen_name, :count => 199, :max_id => last_id)
-      last_id = timeline.last.id - 1
-    end 
-
-    timeline.each do |tweet_obj|
-      @tweets << Tweet.new(tweet_obj)
-    end
   end
 
+  def extract_text_from_tweets(tweet_array)
+    string_array = []
+    tweet_array.each do |tweet_obj|
+      string_array << tweet_obj.text
+    end
+
+    string_array
+  end
 
 end
