@@ -58,7 +58,6 @@ gem "bootstrap-sass", "~> 3.1.1"
 gem "devise"
 gem "airbrake"
 gem "twitter"
-gem 'figaro', github: 'laserlemon/figaro'
 gem "omniauth-twitter"
 gem "twitter-text"
 gem "whenever"
