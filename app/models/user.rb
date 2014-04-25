@@ -18,15 +18,15 @@ class User < ActiveRecord::Base
     end
   end 
 
-  def make_tweets
+  def get_tweets_from(screen_name)
     timeline = []
 
-    timeline = @twitter_client.home_timeline(:count => 199)
+    timeline = @twitter_client.user_timeline(:screen_name => screen_name, :count => 199)
     last_id = timeline.last.id - 1 
 
     4.times do 
       sleep(1)
-      timeline = timeline + @twitter_client.home_timeline(:count => 199, :max_id => last_id)
+      timeline = timeline + @twitter_client.user_timeline(:screen_name => screen_name, :count => 199, :max_id => last_id)
       last_id = timeline.last.id - 1
     end 
 
